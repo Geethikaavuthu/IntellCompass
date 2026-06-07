@@ -1,0 +1,3 @@
+# Optional heavy dependencies (install only if you need AI features)
+google-generativeai>=0.8
+# If you install the above, pip will pull additional binaries like grpcio/protobuf.

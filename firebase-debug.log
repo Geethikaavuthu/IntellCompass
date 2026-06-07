@@ -1,0 +1,53 @@
+[debug] [2026-06-06T17:41:48.380Z] ----------------------------------------------------------------------
+[debug] [2026-06-06T17:41:48.383Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\USER\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-06-06T17:41:48.384Z] CLI Version:   15.19.1
+[debug] [2026-06-06T17:41:48.384Z] Platform:      win32
+[debug] [2026-06-06T17:41:48.384Z] Node Version:  v25.8.1
+[debug] [2026-06-06T17:41:48.384Z] Time:          Sat Jun 06 2026 23:11:48 GMT+0530 (India Standard Time)
+[debug] [2026-06-06T17:41:48.384Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-06T17:41:48.388Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\USER\OneDrive\Desktop\INTELLICOMPASS
+
+[debug] [2026-06-06T17:41:52.140Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-06-06T17:41:52.141Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-06-06T17:42:27.505Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-06T17:42:27.505Z] > authorizing via signed-in user (manisuhas23@gmail.com)
+[debug] [2026-06-06T17:42:27.507Z] Checked if tokens are valid: false, expires at: 1775992493929
+[debug] [2026-06-06T17:42:27.508Z] Checked if tokens are valid: false, expires at: 1775992493929
+[debug] [2026-06-06T17:42:27.508Z] > refreshing access token with scopes: []
+[debug] [2026-06-06T17:42:27.509Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-06-06T17:42:27.509Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-06T17:42:27.677Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-06-06T17:42:27.678Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-06T17:42:27.691Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2026-06-06T17:42:28.432Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-06-06T17:42:28.433Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2026-06-06T17:42:44.608Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\USER\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:508:20)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1327:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+    at ReadStream.emit (node:events:520:22)
+    at emitKeys (node:internal/readline/utils:371:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+    at ReadStream.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+[error] 
+[error] Error: An unexpected error has occurred.

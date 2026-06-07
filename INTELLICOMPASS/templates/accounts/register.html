@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Register - IntelliCompass{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h3 class="text-center mb-4"><i class="bi bi-person-plus me-2"></i>Create Account</h3>
+            <div id="firebase-register">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input id="fb-email" class="form-control" type="email" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input id="fb-password" class="form-control" type="password" />
+                </div>
+                <div id="fb-register-error" class="text-danger mb-2" style="display:none"></div>
+                <div class="d-grid gap-2">
+                    <button id="fb-register-btn" class="btn btn-primary py-2">Register</button>
+                    <button id="fb-google-register" class="btn btn-outline-danger py-2">Sign up with Google</button>
+                    <button id="fb-facebook-register" class="btn btn-outline-primary py-2">Sign up with Facebook</button>
+                </div>
+            </div>
+            <p class="text-center mt-3 text-muted">Already have an account? <a href="{% url 'accounts:login' %}">Login</a></p>
+        </div>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+window.FIREBASE_CLIENT_CONFIG = {{ FIREBASE_CLIENT_CONFIG|default:'{}'|safe }};
+</script>
+<script src="{% static 'js/firebase-auth.js' %}"></script>
+<script>
+document.getElementById('fb-register-btn').addEventListener('click', function(e){
+    e.preventDefault();
+    var email = document.getElementById('fb-email').value;
+    var pw = document.getElementById('fb-password').value;
+    document.getElementById('fb-register-error').style.display='none';
+    IntellicompassFirebaseAuth.registerWithEmail(email, pw, function(err){
+        var el = document.getElementById('fb-register-error'); el.innerText = err; el.style.display='block';
+    });
+});
+document.getElementById('fb-google-register').addEventListener('click', function(e){
+    e.preventDefault();
+    IntellicompassFirebaseAuth.signInWithGoogle(function(err){
+        var el = document.getElementById('fb-register-error'); el.innerText = err; el.style.display='block';
+    });
+});
+document.getElementById('fb-facebook-register').addEventListener('click', function(e){
+    e.preventDefault();
+    IntellicompassFirebaseAuth.signInWithFacebook(function(err){
+        var el = document.getElementById('fb-register-error'); el.innerText = err; el.style.display='block';
+    });
+});
+</script>
+{% endblock %}

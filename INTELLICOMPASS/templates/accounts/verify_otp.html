@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Verify Account - IntelliCompass{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card border-0 shadow-sm p-4">
+      <h3 class="text-center mb-4">Verify your email</h3>
+      <p class="text-muted">Enter the 6-digit code we sent to <strong>{{ user.email }}</strong>.</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Verification code</label>
+          <input name="otp" class="form-control form-control-lg" placeholder="123456" autofocus />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Verify</button>
+      </form>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="mb-0"><a href="{% url 'accounts:register' %}">Register with a different email</a></p>
+        <form method="post" action="{% url 'accounts:resend_otp' uidb64=uidb64 %}">
+          {% csrf_token %}
+          {% if resend_remaining and resend_remaining > 0 %}
+            <button id="resendBtn" class="btn btn-outline-secondary" disabled>Resend ({{ resend_remaining }}s)</button>
+          {% else %}
+            <button id="resendBtn" class="btn btn-outline-secondary">Resend code</button>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% block extra_scripts %}
+<script>
+  (function(){
+    const btn = document.getElementById('resendBtn');
+    let remaining = {{ resend_remaining|default:0 }};
+    if (!btn) return;
+    if (remaining > 0) {
+      const origText = btn.textContent;
+      btn.disabled = true;
+      const interval = setInterval(() => {
+        remaining -= 1;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          btn.disabled = false;
+          btn.textContent = 'Resend code';
+        } else {
+          btn.textContent = `Resend (${remaining}s)`;
+        }
+      }, 1000);
+    }
+  })();
+</script>
+{% endblock %}
+{% endblock %}

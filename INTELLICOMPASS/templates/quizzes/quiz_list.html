@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Quizzes - IntelliCompass{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-question-circle me-2"></i>Quizzes</h2>
+<div class="row g-3">
+    {% for quiz in quizzes %}
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5>{{ quiz.title }}</h5>
+                    <p class="text-muted mb-0">{{ quiz.questions.count }} questions · {{ quiz.time_limit_minutes }} min</p>
+                </div>
+                <a href="{% url 'quizzes:take' quiz.pk %}" class="btn btn-primary">Start</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

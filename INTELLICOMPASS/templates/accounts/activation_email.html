@@ -1,0 +1,7 @@
+<p>Hi {{ user.first_name|default:user.username }},</p>
+<p>Thanks for creating an account on IntelliCompass. Please click the button below to activate your account:</p>
+<p style="text-align:center;margin:24px 0;"><a href="{{ activate_url }}" style="display:inline-block;padding:12px 20px;background:#6f42c1;color:#fff;border-radius:8px;text-decoration:none">Activate account</a></p>
+<p>If the button doesn't work, copy and paste this URL into your browser:</p>
+<p><small>{{ activate_url }}</small></p>
+<p>If you didn't create an account, you can ignore this email.</p>
+<p>— The IntelliCompass Team</p>

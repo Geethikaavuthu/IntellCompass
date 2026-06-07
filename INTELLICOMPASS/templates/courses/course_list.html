@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Courses - IntelliCompass{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-book me-2"></i>Courses</h2>
+    {% if user.is_authenticated and user.is_instructor %}
+    <a href="{% url 'courses:create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Create Course</a>
+    {% endif %}
+</div>
+<div class="row g-4">
+    {% for course in courses %}
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm course-card">
+            {% if course.thumbnail %}
+            <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}" style="height:180px;object-fit:cover;">
+            {% else %}
+            <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#a8d8ea,#aa96da);">
+                <i class="bi bi-book display-4 text-white"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <span class="badge bg-info mb-2">{{ course.category|default:"General" }}</span>
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="card-text text-muted">{{ course.description|truncatewords:15 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><i class="bi bi-person me-1"></i>{{ course.instructor.get_full_name|default:course.instructor.username }}</small>
+                    <a href="{% url 'courses:detail' course.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted text-center">No courses available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

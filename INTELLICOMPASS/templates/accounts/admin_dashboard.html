@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - IntelliCompass{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-shield-lock me-2"></i>Admin Dashboard</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center stat-card">
+            <h3 class="text-primary mb-0">{{ total_students }}</h3>
+            <small class="text-muted">Students</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center stat-card">
+            <h3 class="text-success mb-0">{{ total_instructors }}</h3>
+            <small class="text-muted">Instructors</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center stat-card">
+            <h3 class="text-info mb-0">{{ total_courses }}</h3>
+            <small class="text-muted">Courses</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center stat-card">
+            <h3 class="text-warning mb-0">{{ total_enrollments }}</h3>
+            <small class="text-muted">Enrollments</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>Platform Overview</h5>
+            <canvas id="overviewChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>User Distribution</h5>
+            <canvas id="usersChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3">Recent Feedback</h4>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead><tr><th>Student</th><th>Course</th><th>Rating</th><th>Comment</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for fb in recent_feedback %}
+        <tr>
+            <td>{{ fb.student.username }}</td>
+            <td>{{ fb.course.title|default:"N/A" }}</td>
+            <td>{% for i in "12345" %}{% if forloop.counter <= fb.rating %}⭐{% endif %}{% endfor %}</td>
+            <td>{{ fb.comment|truncatewords:10 }}</td>
+            <td>{{ fb.created_at|date:"M d" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-muted">No feedback yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+new Chart(document.getElementById("overviewChart"), {
+    type: "bar",
+    data: {
+        labels: ["Students", "Instructors", "Courses", "Enrollments"],
+        datasets: [{
+            label: "Count",
+            data: [{{ total_students }}, {{ total_instructors }}, {{ total_courses }}, {{ total_enrollments }}],
+            backgroundColor: ["#a8d8ea", "#aa96da", "#fcbad3", "#ffffd2"]
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+});
+new Chart(document.getElementById("usersChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["Students", "Instructors"],
+        datasets: [{ data: [{{ total_students }}, {{ total_instructors }}], backgroundColor: ["#a8d8ea", "#aa96da"] }]
+    },
+    options: { responsive: true }
+});
+</script>
+{% endblock %}

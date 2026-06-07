@@ -1,0 +1,15 @@
+# Environment variables (SENSITIVE)
+.env
+.env.mail
+
+# Firebase credentials
+firebase_credentials/
+serviceAccount.json
+
+# Dependencies
+node_modules/
+
+# Python/Django
+__pycache__/
+*.pyc
+db.sqlite3

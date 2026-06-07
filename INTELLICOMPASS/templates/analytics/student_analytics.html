@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}My Analytics - IntelliCompass{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-graph-up me-2"></i>My Analytics</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>Course Progress</h5>
+            <canvas id="progressChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>Quiz Scores</h5>
+            <canvas id="quizChart"></canvas>
+        </div>
+    </div>
+</div>
+
+{% if sessions %}
+<h4 class="mb-3">Recent Engagement Sessions</h4>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead><tr><th>Lesson</th><th>Attention</th><th>Emotion</th><th>Duration</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for s in sessions %}
+        <tr>
+            <td>{{ s.lesson.title }}</td>
+            <td><span class="badge {% if s.avg_attention_score >= 70 %}bg-success{% else %}bg-warning{% endif %}">{{ s.avg_attention_score|floatformat:0 }}%</span></td>
+            <td>{{ s.dominant_emotion }}</td>
+            <td>{{ s.duration_seconds }}s</td>
+            <td>{{ s.started_at|date:"M d" }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<script>
+const enrollments = [{% for e in enrollments %}{name:"{{ e.course.title|escapejs }}", progress:{{ e.progress|floatformat:0 }}},{% endfor %}];
+const attempts = [{% for a in attempts %}{name:"{{ a.quiz.title|escapejs }}", score:{{ a.score }}},{% endfor %}];
+
+if (enrollments.length) {
+    new Chart(document.getElementById("progressChart"), {
+        type: "bar",
+        data: { labels: enrollments.map(e=>e.name), datasets: [{label:"Progress %", data: enrollments.map(e=>e.progress), backgroundColor:"#a8d8ea"}]},
+        options: { responsive:true, scales:{y:{max:100}} }
+    });
+}
+if (attempts.length) {
+    new Chart(document.getElementById("quizChart"), {
+        type: "line",
+        data: { labels: attempts.map((_,i)=>`Quiz ${i+1}`), datasets: [{label:"Score %", data: attempts.map(a=>a.score), borderColor:"#aa96da", fill:false, tension:0.3}]},
+        options: { responsive:true, scales:{y:{max:100}} }
+    });
+}
+</script>
+{% endblock %}
